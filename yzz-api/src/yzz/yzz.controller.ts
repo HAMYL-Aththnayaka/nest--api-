@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, ValidationPipe } from '@nestjs/common';
 import { CreateYzzDto } from './dto/create-yzz.dto'
 import { UpdateYzzDto } from './dto/update-yzz.dto';
 import {YzzService} from './yzz.service'
@@ -20,12 +20,12 @@ export class YzzController {
     }
 
     @Get(":id")
-    getYzzById(@Param('id') id: number) {
+    getYzzById(@Param('id',ParseIntPipe) id: number) {
         return this.yzz_service.getYuserId(id);
     }
 
     @Post()
-    createYzz(@Body() createYzzDto: CreateYzzDto) {
+    createYzz(@Body(new ValidationPipe()) createYzzDto: CreateYzzDto) {
         return this.yzz_service.createUser(createYzzDto);
     }
 

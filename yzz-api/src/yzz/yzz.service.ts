@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateYzzDto } from './dto/create-yzz.dto'
 import { UpdateUserDto } from '../users/dto/update-user.dto';
 
@@ -26,12 +26,12 @@ export class YzzService {
     }
 
     getYuserId(id?: number) {
-        if (id) {
-            return this.yzz_users.filter((user) => user.id === id);
+        try {
+            return this.yzz_users.filter((user) => user.id === id)
+        } catch (error) {
+            throw new NotFoundException();
         }
-        else {
-            throw new Error("user not found Invalid User id")
-        }
+
     }
     createUser(createUserDto: CreateYzzDto) {
         const newUser = {
