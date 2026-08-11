@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { CreateYzzDto } from './dto/create-yzz.dto'
 import { UpdateYzzDto } from './dto/update-yzz.dto';
 import {YzzService} from './yzz.service'
+import { ExperianceGuard } from '../experiance/experiance.guard';
 
 @Controller('yzz')
+
 export class YzzController {
 
     constructor(private readonly yzz_service:YzzService){}
@@ -24,6 +26,7 @@ export class YzzController {
         return this.yzz_service.getYuserId(id);
     }
 
+    @UseGuards(ExperianceGuard)
     @Post()
     createYzz(@Body(new ValidationPipe()) createYzzDto: CreateYzzDto) {
         return this.yzz_service.createUser(createYzzDto);
